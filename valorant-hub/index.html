@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALORANT // PROTOCOL - Tactical Intel & Crosshair Studio</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            valRed: '#FF4655',
+            valDark: '#0F1923',
+            valPanel: '#141D24',
+            valBorder: '#2C3945',
+            valCream: '#ECE8E1',
+            valCyan: '#00F5D4',
+            valYellow: '#FACC15'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen text-[#ece8e1] flex flex-col selection:bg-[#ff4655] selection:text-white">
+
+  <!-- TOP HUD BAR -->
+  <header class="sticky top-0 z-40 bg-[#0f1923]/95 backdrop-blur-md border-b border-[#2c3945] px-4 lg:px-8 py-3.5 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-[#ff4655] flex items-center justify-center val-cut-tl-br font-display text-2xl font-bold text-white shadow-[0_0_15px_rgba(255,70,85,0.5)]">
+        V
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-display text-2xl tracking-wider text-white font-bold">VALORANT</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 bg-[#ff4655]/20 text-[#ff4655] border border-[#ff4655]/40 rounded">PROTOCOL</span>
+        </div>
+        <p class="text-[10px] font-mono text-gray-400 tracking-widest hidden sm:block">// TACTICAL INTEL & CROSSHAIR STUDIO</p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="hidden md:flex items-center gap-1.5 bg-[#141d24] p-1 rounded-lg border border-[#2c3945]">
+      <button class="nav-tab-btn px-4 py-2 rounded-md font-hud font-bold text-sm tracking-wider uppercase transition active" data-tab="agents">
+        AGENTS
+      </button>
+      <button class="nav-tab-btn px-4 py-2 rounded-md font-hud font-bold text-sm tracking-wider uppercase transition text-gray-400 hover:text-white" data-tab="arsenal">
+        ARSENAL
+      </button>
+      <button class="nav-tab-btn px-4 py-2 rounded-md font-hud font-bold text-sm tracking-wider uppercase transition text-gray-400 hover:text-white" data-tab="crosshair">
+        CROSSHAIR STUDIO
+      </button>
+      <button class="nav-tab-btn px-4 py-2 rounded-md font-hud font-bold text-sm tracking-wider uppercase transition text-gray-400 hover:text-white" data-tab="maps">
+        MAPS INTEL
+      </button>
+      <button class="nav-tab-btn px-4 py-2 rounded-md font-hud font-bold text-sm tracking-wider uppercase transition text-gray-400 hover:text-white" data-tab="ranks">
+        RANKS
+      </button>
+    </nav>
+
+    <!-- Tactical Audio Toggle & Riot Status -->
+    <div class="flex items-center gap-3">
+      <button id="audioToggleBtn" class="flex items-center gap-2 px-3 py-1.5 rounded bg-[#1b2530] hover:bg-[#253240] border border-[#2c3945] text-xs font-mono text-cyan-400 transition" title="Toggle SFX">
+        <i id="audioIcon" data-lucide="volume-2" class="w-4 h-4"></i>
+        <span id="audioLabel" class="hidden sm:inline">AUDIO: ON</span>
+      </button>
+      <a href="https://playvalorant.com" target="_blank" rel="noopener noreferrer" class="btn-val-primary px-4 py-1.5 rounded text-xs font-hud tracking-wider hidden sm:flex items-center gap-1.5 val-cut-br">
+        <span>PLAY FREE</span>
+        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION BAR -->
+  <div class="md:hidden flex overflow-x-auto border-b border-[#2c3945] bg-[#141d24] p-2 gap-2 text-xs font-hud font-bold">
+    <button class="nav-tab-btn px-3 py-1.5 rounded bg-[#ff4655] text-white shrink-0" data-tab="agents">AGENTS</button>
+    <button class="nav-tab-btn px-3 py-1.5 rounded text-gray-400 shrink-0" data-tab="arsenal">ARSENAL</button>
+    <button class="nav-tab-btn px-3 py-1.5 rounded text-gray-400 shrink-0" data-tab="crosshair">CROSSHAIRS</button>
+    <button class="nav-tab-btn px-3 py-1.5 rounded text-gray-400 shrink-0" data-tab="maps">MAPS</button>
+    <button class="nav-tab-btn px-3 py-1.5 rounded text-gray-400 shrink-0" data-tab="ranks">RANKS</button>
+  </div>
+
+  <!-- HERO BANNER SECTION -->
+  <section class="relative border-b border-[#2c3945] bg-[#0c141c] overflow-hidden py-16 px-4 lg:px-8">
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#ff4655_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="max-w-6xl mx-auto relative z-10">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2.5 h-2.5 bg-[#ff4655] rounded-full animate-pulse"></span>
+        <span class="font-mono text-xs text-[#ff4655] uppercase tracking-widest">// EPISODE 09 // ACT II: TACTICAL PROTOCOL</span>
+      </div>
+      <h1 class="font-display text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-white uppercase leading-none mb-4">
+        DEFY THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4655] to-orange-500">LIMITS</span>
+      </h1>
+      <p class="text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed mb-8 font-sans">
+        Blend your style and experience on a global, competitive stage. Master precise gunplay, lethal agent utility, weapon damage dropoff, and custom crosshair engineering.
+      </p>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center gap-4">
+        <button data-jump-tab="agents" class="btn-val-primary px-6 py-3 rounded text-sm flex items-center gap-2 val-cut-tl-br">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>EXPLORE AGENTS ROSTER</span>
+        </button>
+        <button data-jump-tab="crosshair" class="btn-val-secondary px-6 py-3 rounded text-sm flex items-center gap-2 val-cut-tl-br">
+          <i data-lucide="crosshair" class="w-4 h-4"></i>
+          <span>CROSSHAIR STUDIO</span>
+        </button>
+        <button data-jump-tab="arsenal" class="btn-val-secondary px-6 py-3 rounded text-sm flex items-center gap-2 val-cut-tl-br">
+          <i data-lucide="shield" class="w-4 h-4"></i>
+          <span>WEAPON COMPARATOR</span>
+        </button>
+      </div>
+
+      <!-- Quick Stats Ticker -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 pt-8 border-t border-[#222e3a] font-mono text-xs">
+        <div class="bg-[#141d24]/60 p-3 rounded border border-white/5">
+          <span class="text-gray-400 block text-[10px]">// AGENTS IN FIELD</span>
+          <span class="text-xl font-bold text-white font-display">25+ OPERATIVES</span>
+        </div>
+        <div class="bg-[#141d24]/60 p-3 rounded border border-white/5">
+          <span class="text-gray-400 block text-[10px]">// ARSENAL WEAPONS</span>
+          <span class="text-xl font-bold text-white font-display">18 FIREARMS</span>
+        </div>
+        <div class="bg-[#141d24]/60 p-3 rounded border border-white/5">
+          <span class="text-gray-400 block text-[10px]">// ACTIVE POOL</span>
+          <span class="text-xl font-bold text-white font-display">COMPETITIVE MAPS</span>
+        </div>
+        <div class="bg-[#141d24]/60 p-3 rounded border border-white/5">
+          <span class="text-gray-400 block text-[10px]">// SIMULATOR</span>
+          <span class="text-xl font-bold text-emerald-400 font-display">100% REAL-TIME</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-10">
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: AGENTS ROSTER                       -->
+    <!-- ============================================== -->
+    <section id="agents" class="content-section">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 border-b border-[#2c3945] pb-6">
+        <div>
+          <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest">// ROSTER SELECTION</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold tracking-wide text-white">VALORANT AGENTS</h2>
+          <p class="text-xs text-gray-400">Select any operative to inspect tactical abilities, role profiles, and cooldown costs.</p>
+        </div>
+
+        <!-- Role Filter Tabs -->
+        <div class="flex flex-wrap gap-2 bg-[#101820] p-1.5 rounded-lg border border-[#2c3945]">
+          <button class="agent-filter-btn px-3 py-1.5 rounded font-hud font-bold text-xs uppercase bg-[#ff4655] text-white transition" data-role="ALL">ALL</button>
+          <button class="agent-filter-btn px-3 py-1.5 rounded font-hud font-bold text-xs uppercase bg-[#141d24] text-gray-400 hover:text-white transition" data-role="DUELIST">DUELISTS</button>
+          <button class="agent-filter-btn px-3 py-1.5 rounded font-hud font-bold text-xs uppercase bg-[#141d24] text-gray-400 hover:text-white transition" data-role="INITIATOR">INITIATORS</button>
+          <button class="agent-filter-btn px-3 py-1.5 rounded font-hud font-bold text-xs uppercase bg-[#141d24] text-gray-400 hover:text-white transition" data-role="CONTROLLER">CONTROLLERS</button>
+          <button class="agent-filter-btn px-3 py-1.5 rounded font-hud font-bold text-xs uppercase bg-[#141d24] text-gray-400 hover:text-white transition" data-role="SENTINEL">SENTINELS</button>
+        </div>
+      </div>
+
+      <!-- Agents Grid -->
+      <div id="agentsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Dynamically rendered via data.js & app.js -->
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 2: ARSENAL COMPARISON MATRIX          -->
+    <!-- ============================================== -->
+    <section id="arsenal" class="content-section hidden">
+      <div class="mb-8 border-b border-[#2c3945] pb-6">
+        <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest">// TACTICAL WEAPONRY</span>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold tracking-wide text-white">ARSENAL COMPARATOR</h2>
+        <p class="text-xs text-gray-400">Compare lethal thresholds, damage dropoff matrices, fire rates, and economy costs side-by-side.</p>
+      </div>
+
+      <!-- Selector controls -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-[#141d24] p-4 rounded-xl border border-[#2c3945]">
+        <div>
+          <label for="weapon1Select" class="block text-xs font-mono text-cyan-400 mb-2 uppercase">// PRIMARY WEAPON SPEC</label>
+          <select id="weapon1Select" class="w-full bg-[#1b2632] border border-[#2c3945] rounded-lg px-4 py-2.5 font-hud font-bold text-white focus:outline-none focus:border-[#ff4655]">
+            <!-- Populated via app.js -->
+          </select>
+        </div>
+        <div>
+          <label for="weapon2Select" class="block text-xs font-mono text-amber-400 mb-2 uppercase">// COMPARISON WEAPON SPEC</label>
+          <select id="weapon2Select" class="w-full bg-[#1b2632] border border-[#2c3945] rounded-lg px-4 py-2.5 font-hud font-bold text-white focus:outline-none focus:border-[#ff4655]">
+            <!-- Populated via app.js -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Comparison Render Area -->
+      <div id="comparisonView">
+        <!-- Populated via app.js -->
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 3: INTERACTIVE CROSSHAIR STUDIO        -->
+    <!-- ============================================== -->
+    <section id="crosshair" class="content-section hidden">
+      <div class="mb-8 border-b border-[#2c3945] pb-6">
+        <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest">// FIRING RANGE CALIBRATION</span>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold tracking-wide text-white">CROSSHAIR STUDIO & SIMULATOR</h2>
+        <p class="text-xs text-gray-400">Design your reticle in real-time, test recoil behavior, and import/export official VALORANT profile strings.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left: Interactive Canvas Simulator -->
+        <div class="lg:col-span-6 flex flex-col">
+          <div class="relative w-full aspect-square max-w-[480px] mx-auto rounded-2xl border-2 border-[#2c3945] overflow-hidden crosshair-range-bg shadow-2xl flex items-center justify-center">
+            <!-- Canvas -->
+            <canvas id="crosshairCanvas" width="480" height="480" class="w-full h-full block"></canvas>
+            
+            <!-- Hitmarker Indicator Overlay -->
+            <div id="hitmarkerIndicator" class="absolute pointer-events-none hidden text-red-500 flex flex-col items-center justify-center">
+              <svg class="w-12 h-12 text-[#ff4655] drop-shadow-[0_0_10px_#ff4655]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="4" y1="4" x2="9" y2="9"></line>
+                <line x1="20" y1="4" x2="15" y2="9"></line>
+                <line x1="4" y1="20" x2="9" y2="15"></line>
+                <line x1="20" y1="20" x2="15" y2="15"></line>
+              </svg>
+              <span class="font-display text-lg font-bold text-white bg-red-600/80 px-2 py-0.5 rounded shadow">HEADSHOT! 160</span>
+            </div>
+
+            <!-- Target HUD indicators -->
+            <div class="absolute top-3 left-3 text-[10px] font-mono text-gray-400 bg-black/60 px-2 py-1 rounded border border-white/5">
+              // RANGE: 30 METERS
+            </div>
+            <div class="absolute bottom-3 left-3 text-[10px] font-mono text-gray-400 bg-black/60 px-2 py-1 rounded border border-white/5">
+              TARGET: HEAD-LEVEL
+            </div>
+          </div>
+
+          <!-- Test Fire Button -->
+          <div class="mt-4 flex gap-3 max-w-[480px] mx-auto w-full">
+            <button id="testFireBtn" class="flex-1 btn-val-primary py-3.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg">
+              <i data-lucide="target" class="w-5 h-5"></i>
+              <span>TEST FIRE RECOIL</span>
+            </button>
+          </div>
+
+          <!-- Export Profile Code -->
+          <div class="mt-4 max-w-[480px] mx-auto w-full bg-[#141d24] p-3 rounded-lg border border-[#2c3945] flex items-center gap-2">
+            <input type="text" id="crosshairCodeInput" readonly class="bg-[#0f171e] text-xs font-mono text-gray-300 px-3 py-2 rounded flex-1 border border-white/5 focus:outline-none" value="" />
+            <button id="copyProfileBtn" class="btn-val-secondary px-3 py-2 rounded text-xs font-mono flex items-center gap-1.5 shrink-0">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>COPY CODE</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Sliders & Pro Presets -->
+        <div class="lg:col-span-6 space-y-6">
+          <!-- Pro Presets -->
+          <div class="bg-[#141d24] border border-[#2c3945] rounded-xl p-5">
+            <h4 class="font-hud font-bold text-sm uppercase tracking-wider text-white mb-3 flex items-center gap-2">
+              <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+              <span>VCT PRO PLAYER PRESETS</span>
+            </h4>
+            <div id="proPresetsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <!-- Populated via app.js -->
+            </div>
+          </div>
+
+          <!-- reticle Controls -->
+          <div class="bg-[#141d24] border border-[#2c3945] rounded-xl p-5 space-y-4 font-mono text-xs">
+            <h4 class="font-hud font-bold text-sm uppercase tracking-wider text-white flex items-center gap-2">
+              <i data-lucide="sliders" class="w-4 h-4 text-[#ff4655]"></i>
+              <span>RETICLE CUSTOMIZER</span>
+            </h4>
+
+            <!-- Color -->
+            <div class="flex items-center justify-between">
+              <span class="text-gray-400">CROSSHAIR COLOR</span>
+              <div class="flex items-center gap-2">
+                <input type="color" id="chColor" value="#00ffff" class="w-8 h-8 rounded border border-white/20 cursor-pointer bg-transparent" />
+              </div>
+            </div>
+
+            <!-- Outlines -->
+            <div class="flex items-center justify-between border-t border-white/5 pt-3">
+              <span class="text-gray-400">OUTLINES</span>
+              <input type="checkbox" id="chOutlines" checked class="w-4 h-4 accent-[#ff4655] cursor-pointer" />
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-gray-400">
+                <span>OUTLINE THICKNESS</span>
+                <span class="text-white">1</span>
+              </div>
+              <input type="range" id="chOutlineThickness" min="1" max="4" step="1" value="1" class="w-full accent-[#ff4655]" />
+            </div>
+
+            <!-- Center Dot -->
+            <div class="flex items-center justify-between border-t border-white/5 pt-3">
+              <span class="text-gray-400">CENTER DOT</span>
+              <input type="checkbox" id="chCenterDot" class="w-4 h-4 accent-[#ff4655] cursor-pointer" />
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-gray-400">
+                <span>CENTER DOT SIZE</span>
+                <span class="text-white">2</span>
+              </div>
+              <input type="range" id="chCenterDotSize" min="1" max="6" step="1" value="2" class="w-full accent-[#ff4655]" />
+            </div>
+
+            <!-- Inner Lines -->
+            <div class="border-t border-white/5 pt-3 space-y-3">
+              <span class="text-[#ff4655] font-bold block">// INNER LINES</span>
+              
+              <div class="space-y-1">
+                <div class="flex justify-between text-gray-400">
+                  <span>INNER LINE LENGTH</span>
+                  <span class="text-white">4</span>
+                </div>
+                <input type="range" id="chInnerLength" min="0" max="12" step="1" value="4" class="w-full accent-[#ff4655]" />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-gray-400">
+                  <span>INNER LINE THICKNESS</span>
+                  <span class="text-white">2</span>
+                </div>
+                <input type="range" id="chInnerThickness" min="1" max="6" step="1" value="2" class="w-full accent-[#ff4655]" />
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex justify-between text-gray-400">
+                  <span>INNER LINE OFFSET</span>
+                  <span class="text-white">2</span>
+                </div>
+                <input type="range" id="chInnerOffset" min="0" max="15" step="1" value="2" class="w-full accent-[#ff4655]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 4: MAPS INTEL GUIDE                    -->
+    <!-- ============================================== -->
+    <section id="maps" class="content-section hidden">
+      <div class="mb-8 border-b border-[#2c3945] pb-6">
+        <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest">// THEATER OF COMBAT</span>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold tracking-wide text-white">MAPS & TACTICAL INTEL</h2>
+        <p class="text-xs text-gray-400">Explore competitive bomb sites, unique map mechanics, and high-tier callout execution strategies.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Map selection column -->
+        <div class="lg:col-span-4" id="mapListContainer">
+          <!-- Populated via app.js -->
+        </div>
+
+        <!-- Map detailed view -->
+        <div class="lg:col-span-8" id="mapDetailContainer">
+          <!-- Populated via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 5: COMPETITIVE RANKS                   -->
+    <!-- ============================================== -->
+    <section id="ranks" class="content-section hidden">
+      <div class="mb-8 border-b border-[#2c3945] pb-6">
+        <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest">// PATH TO RADIANT</span>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold tracking-wide text-white">COMPETITIVE RANK TIERS</h2>
+        <p class="text-xs text-gray-400">From Iron fundamentals to the top 500 Radiant leaderboard: tier progression and tactical expectations.</p>
+      </div>
+
+      <div id="ranksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated via app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- AGENT DOSSIER MODAL -->
+  <div id="agentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#141d24] border-2 border-[#ff4655] rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[90vh]">
+      <!-- Close Button -->
+      <button id="closeModalBtn" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/60 hover:bg-[#ff4655] text-white flex items-center justify-center transition border border-white/20">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Left: Agent Graphic & Role -->
+      <div class="md:w-5/12 bg-gradient-to-b from-[#1b2732] to-[#0d141b] p-6 flex flex-col justify-between relative overflow-hidden border-b md:border-b-0 md:border-r border-[#2c3945]">
+        <div class="relative z-10">
+          <div class="flex items-center gap-2 text-xs font-mono text-[#ff4655] uppercase mb-1">
+            <span class="w-2 h-2 rounded-full bg-[#ff4655]"></span>
+            <span id="modalAgentRole">DUELIST</span>
+          </div>
+          <h3 id="modalAgentName" class="font-display text-5xl font-black text-white tracking-wider">JETT</h3>
+          <p class="text-xs font-mono text-gray-400">ORIGIN: <span id="modalAgentOrigin" class="text-white">SOUTH KOREA</span></p>
+        </div>
+
+        <div class="relative my-4 flex items-center justify-center">
+          <img id="modalAgentAvatar" src="" alt="Agent" class="max-h-72 object-contain filter drop-shadow-2xl" />
+        </div>
+
+        <div class="relative z-10 bg-[#0f171e]/80 p-3 rounded-lg border border-white/5">
+          <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest block mb-1">// COMBAT PROFILE</span>
+          <p id="modalAgentPlaystyle" class="text-xs text-cyan-300 font-mono"></p>
+        </div>
+      </div>
+
+      <!-- Right: Biography & Abilities tabs -->
+      <div class="md:w-7/12 p-6 flex flex-col justify-between overflow-y-auto">
+        <div>
+          <span class="text-xs font-mono text-gray-400 uppercase tracking-widest block mb-1">// DOSSIER BIOGRAPHY</span>
+          <p id="modalAgentBio" class="text-sm text-gray-300 leading-relaxed font-sans mb-6"></p>
+
+          <span class="text-xs font-mono text-[#ff4655] uppercase tracking-widest block mb-3">// TACTICAL ABILITIES INVENTORY</span>
+          
+          <!-- Abilities Switcher -->
+          <div id="modalAbilitiesContainer">
+            <!-- Rendered via app.js -->
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-[#222e3a] flex items-center justify-between text-xs font-mono text-gray-500">
+          <span>VALORANT PROTOCOL // INTEL AUTHENTICATED</span>
+          <button onclick="document.getElementById('agentModal').classList.add('hidden'); document.body.style.overflow='';" class="text-white hover:text-[#ff4655] uppercase font-bold">DISMISS [ESC]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#2c3945] bg-[#0c131a] py-8 px-4 lg:px-8 mt-16 font-mono text-xs text-gray-400">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-[#ff4655] rounded-sm"></div>
+        <span class="text-white font-bold font-hud tracking-wider">VALORANT PROTOCOL ARCHIVE</span>
+        <span>// VER 9.02</span>
+      </div>
+      <p class="text-center md:text-right text-[11px] text-gray-500 max-w-md">
+        VALORANT is a trademark and copyright of Riot Games, Inc. This web application is a tactical interactive fan companion built for strategy, arsenal comparison, and crosshair optimization.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
