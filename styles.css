@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --val-black: #0f1923;
+  --val-dark: #1b232c;
+  --val-panel: #141d24;
+  --val-border: #2c3945;
+  --val-red: #ff4655;
+  --val-red-hover: #e03c4a;
+  --val-red-glow: rgba(255, 70, 85, 0.4);
+  --val-cream: #ece8e1;
+  --val-cyan: #00f5d4;
+  --val-yellow: #facc15;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--val-black);
+  color: var(--val-cream);
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  background-image: 
+    linear-gradient(rgba(15, 25, 35, 0.94), rgba(15, 25, 35, 0.97)),
+    radial-gradient(circle at 10% 20%, rgba(255, 70, 85, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 245, 212, 0.05) 0%, transparent 40%),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: auto, auto, auto, 40px 40px, 40px 40px;
+}
+
+/* Typography styles */
+.font-display {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.06em;
+}
+
+.font-hud {
+  font-family: 'Rajdhani', monospace, sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* Valorant angled corners */
+.val-cut-corner {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+.val-cut-br {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+.val-cut-tl-br {
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+
+.val-tab-clip {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+
+/* Tactical buttons */
+.btn-val-primary {
+  position: relative;
+  background: var(--val-red);
+  color: white;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.btn-val-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.4s ease;
+}
+
+.btn-val-primary:hover::before {
+  left: 100%;
+}
+
+.btn-val-primary:hover {
+  background: #ff2a3b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--val-red-glow);
+}
+
+.btn-val-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--val-border);
+  color: var(--val-cream);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+.btn-val-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--val-red);
+  color: white;
+}
+
+/* Card hover glow */
+.agent-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.agent-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--val-red);
+  box-shadow: 0 12px 32px rgba(255, 70, 85, 0.18);
+}
+
+/* Crosshair target range simulator background */
+.crosshair-range-bg {
+  background: radial-gradient(circle at center, #273544 0%, #151e27 60%, #0d1319 100%);
+  background-image: 
+    radial-gradient(circle at center, rgba(255, 70, 85, 0.15) 0%, transparent 65%),
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: auto, 20px 20px, 20px 20px;
+}
+
+/* Scanline animation */
+.scanline-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline-overlay::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1923;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3847;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4655;
+}
+
+/* Active tab style */
+.tab-btn.active {
+  background-color: var(--val-red);
+  color: #ffffff;
+  border-color: var(--val-red);
+  box-shadow: 0 0 16px var(--val-red-glow);
+}
+
+/* Recoil target animation */
+@keyframes muzzleFlash {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.04); filter: brightness(1.6); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.firing-animation {
+  animation: muzzleFlash 0.08s ease-out;
+}
+
+/* Hitmarker popup */
+@keyframes hitPulse {
+  0% { transform: scale(0.6); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.hitmarker-active {
+  animation: hitPulse 0.25s forwards;
+}
+
+/* Modal backdrop fade */
+.modal-enter {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
